@@ -37,12 +37,14 @@ import {JigsawListModule} from "./component/list-and-tile/list";
 import {JigsawTrustedHtmlModule} from "./directive/trusted-html/trusted-html";
 import {JigsawBoxModule} from "./component/box/index";
 import {JigsawTabsWrapperModule} from "./component/box/tabs-wrapper/tabs-wrapper";
+import {JigsawCascadeModule} from "./component/cascade/cascade";
 
 const JIGSAW_MODULE = [
     JigsawAlertModule,
     JigsawBlockModule,
     JigsawBoxModule,
     JigsawButtonModule,
+    JigsawCascadeModule,
     JigsawCheckBoxModule,
     JigsawCollapseModule,
     JigsawComboSelectModule,

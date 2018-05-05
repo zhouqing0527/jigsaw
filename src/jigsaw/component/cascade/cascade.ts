@@ -1,14 +1,18 @@
 import {
     AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, NgModule, OnInit, Optional, Output, ViewChild
 } from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
+import {Observable} from "rxjs/Observable";
 import {JigsawTabsModule} from "../tabs/index";
 import {JigsawTileSelectModule} from "../list-and-tile/tile";
 import {JigsawTab} from "../tabs/tab";
-import {CommonModule} from "@angular/common";
 import {AbstractJigsawComponent, IDynamicInstantiatable} from "../common";
 import {CommonUtils} from "../../core/utils/common-utils";
 import {ArrayCollection} from "../../core/data/array-collection";
-import {Observable} from "rxjs/Observable";
+import {LoadingService} from "../../service/loading.service";
+import {InternalUtils} from "../../core/utils/internal-utils";
+import {TranslateHelper} from "../../core/utils/translate-helper";
 
 export class CascadeData {
     /**
@@ -20,9 +24,9 @@ export class CascadeData {
     /**
      * 级联选项的数据集,支持静态和异步数据
      *
-     * @type {any[] | Observable<Object>}
+     * @type {any[] | Observable<any[]>}
      */
-    list: any[] | Observable<Object>;
+    list: any[] | Observable<any[]>;
     /**
      * 是否级联结束，不设置默认为不结束
      *
@@ -70,7 +74,7 @@ export class CascadeTabContentInitData {
  */
 @Component({
     selector: 'jigsaw-cascade, j-cascade',
-    templateUrl: './cascade.html',
+    template: '<j-tabs></j-tabs>',
     host: {
         '[class.jigsaw-cascade]': 'true'
     }
@@ -175,16 +179,20 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
         if (this.autoClear && this.selectedItems[level]) {
             // 支持多维
             // 过滤掉已有的但是现在不选的
+            const compare = CommonUtils.compareWithKeyProperty;
             this.selectedItems[level] = this.selectedItems[level].filter(item => {
+                const list = <any[]>this.data[level].list;
+                const inThisTab = list.find(it => compare(item, it, this._trackItemBy));
                 // 不是此维度的保留
-                if (!(<any[]>this.data[level].list)
-                        .find(it => CommonUtils.compareWithKeyProperty(item, it, this._trackItemBy))) return true;
+                if (!inThisTab) {
+                    return true;
+                }
                 // 在选中项里的保留，不在选中项里的去掉
-                return selectedItems.find(it => CommonUtils.compareWithKeyProperty(item, it, this._trackItemBy));
+                return selectedItems.find(it => compare(item, it, this._trackItemBy));
             });
             // 添加原来没选的但是现在选中的
             selectedItems.forEach(item => {
-                if (!this.selectedItems[level].find(it => CommonUtils.compareWithKeyProperty(item, it, this._trackItemBy))) {
+                if (!this.selectedItems[level].find(it => compare(item, it, this._trackItemBy))) {
                     this.selectedItems[level].push(item);
                 }
             })
@@ -212,7 +220,7 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
     /**
      * @internal
      */
-    public _handleSelectAll(level: number) {
+    public _selectAll(level: number) {
         if (this.multipleSelect && this.autoClear) {
             console.warn('multidimensional select can not select all');
             return;
@@ -290,7 +298,10 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
     template: `
         <j-tile [(selectedItems)]="_$selectedItems" (selectedItemsChange)="_$handleSelect($event)"
                 [trackItemBy]="_$cascade?.trackItemBy" [multipleSelect]="initData.multipleSelect">
-            <div *ngIf="initData?.showAll" class="jigsaw-tile-show-all" (click)="_$selectAll()">全部</div>
+            <div *ngIf="initData?.showAll" class="jigsaw-tile-show-all"
+                 (click)="_$cascade?._selectAll(initData.level)">
+                {{'cascade.all' | translate}}
+            </div>
             <j-tile-option *ngFor="let item of _$list" [value]="item" (click)="_$handleOptionClick()">
                 {{item[_$cascade?.labelField]}}
             </j-tile-option>
@@ -298,7 +309,7 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
     `
 })
 export class JigsawInnerCascadeTabContent extends AbstractJigsawComponent implements IDynamicInstantiatable {
-    constructor(@Optional() public _$cascade: JigsawCascade) {
+    constructor(@Optional() public _$cascade: JigsawCascade, private _loading: LoadingService) {
         super();
     }
 
@@ -319,10 +330,14 @@ export class JigsawInnerCascadeTabContent extends AbstractJigsawComponent implem
         }
         const list = this._initData.list;
         if (list instanceof Observable) {
-            list.subscribe((data: any[]) => {
+            const popupInfo = this._loading.show();
+            const subscriber = list.subscribe((data: any[]) => {
                 this._$cascade.data[this.initData.level].list = data; // 更新list变成实体数据
                 this._init(data, allSelectedData);
-            })
+
+                subscriber.unsubscribe();
+                popupInfo.dispose();
+            }, () => subscriber.unsubscribe());
         } else if (list instanceof Array) {
             this._init(list, allSelectedData);
         }
@@ -364,13 +379,6 @@ export class JigsawInnerCascadeTabContent extends AbstractJigsawComponent implem
     /**
      * @internal
      */
-    public _$selectAll() {
-        this._$cascade._handleSelectAll(this.initData.level);
-    }
-
-    /**
-     * @internal
-     */
     public _$handleOptionClick() {
         // 补充已选中的option不触发selectedItemsChange
         if (this.initData.cascadingOver || this._$cascade._tabs.selectedIndex != this.initData.level) return;
@@ -383,11 +391,23 @@ export class JigsawInnerCascadeTabContent extends AbstractJigsawComponent implem
 }
 
 @NgModule({
-    imports: [JigsawTabsModule, JigsawTileSelectModule, CommonModule],
+    imports: [JigsawTabsModule, JigsawTileSelectModule, TranslateModule, CommonModule],
     declarations: [JigsawCascade, JigsawInnerCascadeTabContent],
     exports: [JigsawCascade],
+    providers: [LoadingService, TranslateService],
     entryComponents: [JigsawInnerCascadeTabContent]
 })
 export class JigsawCascadeModule {
-
+    constructor(ts: TranslateService) {
+        InternalUtils.initI18n(ts, 'cascade', {
+            zh: {
+                all: "全部"
+            },
+            en: {
+                all: "All"
+            }
+        });
+        ts.setDefaultLang(ts.getBrowserLang());
+        TranslateHelper.languageChangEvent.subscribe(langInfo => ts.use(langInfo.curLang));
+    }
 }

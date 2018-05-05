@@ -5,6 +5,17 @@ import {
 import {JigsawTabPane} from "./tab-pane";
 import {JigsawTabContent, JigsawTabLabel, TabTitleInfo} from "./tab-item";
 import {AbstractJigsawComponent, IDynamicInstantiatable} from "../common";
+import {CommonUtils} from "../../core/utils/common-utils";
+
+export class TabContentBase extends AbstractJigsawComponent implements IDynamicInstantiatable {
+    public initData: any;
+
+    public onActivate() {
+    }
+
+    public onDeactivate() {
+    }
+}
 
 /**
  * 使用`JigsawTab`来将一组视图叠加在同一个区域使用，并以页签的方式来切换这些视图。
@@ -252,12 +263,14 @@ export class JigsawTab extends AbstractJigsawComponent implements AfterViewInit,
      */
     public hideTab(index: number): void {
         let tabPane = this._getTabPaneByIndex(index);
-
         if (!this._isTabPane(tabPane)) return;
 
         tabPane.hidden = true;
-
         this._handleSelect();
+
+        if (tabPane.content instanceof TabContentBase) {
+            CommonUtils.safeInvokeCallback(this, tabPane.content.onDeactivate);
+        }
     }
 
     /**
@@ -270,11 +283,14 @@ export class JigsawTab extends AbstractJigsawComponent implements AfterViewInit,
      */
     public showTab(index: number) {
         let tabPane = this._getTabPaneByIndex(index);
-
         if (!this._isTabPane(tabPane)) return;
 
         tabPane.hidden = false;
         this.selectedIndex = index;
+
+        if (tabPane.content instanceof TabContentBase) {
+            CommonUtils.safeInvokeCallback(this, tabPane.content.onActivate);
+        }
     }
 
     private _isTabPane(tabPane: any): boolean {
@@ -377,7 +393,12 @@ export class JigsawTab extends AbstractJigsawComponent implements AfterViewInit,
             return;
         }
 
-        let tabTemp = this._$tabPanes.toArray();
+        const tabPane = this._getTabPaneByIndex(index);
+        if (this._isTabPane(tabPane) && tabPane.content instanceof TabContentBase) {
+            CommonUtils.safeInvokeCallback(this, tabPane.content.onDeactivate);
+        }
+
+        const tabTemp = this._$tabPanes.toArray();
         tabTemp.splice(index, 1); // 去掉要删除的元素;
 
         // 重新修改queryList. 不确定这么做有没有什么隐患.

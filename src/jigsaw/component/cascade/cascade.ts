@@ -4,7 +4,7 @@ import {
 import {CommonModule} from "@angular/common";
 import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {Observable} from "rxjs/Observable";
-import {JigsawTabsModule} from "../tabs/index";
+import {JigsawTabsModule, TabContentBase} from "../tabs/index";
 import {JigsawTileSelectModule} from "../list-and-tile/tile";
 import {JigsawTab} from "../tabs/tab";
 import {AbstractJigsawComponent, IDynamicInstantiatable} from "../common";
@@ -59,6 +59,7 @@ export class CascadeTabContentInitData {
     noMore: boolean;
     multipleSelect: boolean;
     showAll: boolean;
+    lazy: boolean;
 }
 
 /**
@@ -231,14 +232,15 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
         this.selectedItemsChange.emit(this.selectedItems);
     }
 
-    private _addCascadingTab(level: number) {
+    private _addCascadingTab(level: number, lazy: boolean) {
         this._removeCascadingTabs(level);
-        this._tabs.addTab(this.data[level].title, JigsawInnerCascadeTabContent, {
+        this._tabs.addTab(this.data[level].title, InternalTabContent, {
             level: level,
             list: this.data[level].list,
             noMore: this.data[level].noMore,
             multipleSelect: this.data[level].noMore && this.multipleSelect,
-            showAll: this.data[level].showAll
+            showAll: this.data[level].showAll,
+            lazy: lazy
         });
     }
 
@@ -256,7 +258,7 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
         this._changeDetectorRef.detectChanges();
     }
 
-    private _cascading(level: number, selectedItem?: any) {
+    private _cascading(level: number, selectedItem?: any, lazy?: boolean) {
         const levelData = this.dataGenerator(selectedItem, this.selectedItems, this.data, level);
         if (!levelData || !levelData.list) {
             // 取不到下一级的数据，级联到此结束，更新选中的数据
@@ -264,12 +266,12 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
             return;
         }
         this.data[level] = levelData;
-        this._addCascadingTab(level);
+        this._addCascadingTab(level, lazy);
     }
 
     private _fillBack() {
         this.selectedItems.forEach((item, index) => {
-            this._cascading(index, this.selectedItems[index - 1]);
+            this._cascading(index, this.selectedItems[index - 1], true);
             if (this.data[index].noMore && this.multipleSelect) return; // 多选时的最后一个tab采用默认title
             this._updateTabTitle(item, index);
         })
@@ -308,27 +310,37 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
         </j-tile>
     `
 })
-export class JigsawInnerCascadeTabContent extends AbstractJigsawComponent implements IDynamicInstantiatable {
+export class InternalTabContent extends TabContentBase {
     constructor(@Optional() public _$cascade: JigsawCascade, private _loading: LoadingService) {
         super();
     }
 
-    private _initData: CascadeTabContentInitData;
+    public initData: CascadeTabContentInitData;
+    private _initialized = false;
 
-    public get initData(): CascadeTabContentInitData {
-        return this._initData;
-    }
-
-    public set initData(value: CascadeTabContentInitData) {
-        if (!value) return;
-        this._initData = value;
-
-        let allSelectedData = this._$cascade.selectedItems[this._initData.level];
-        if (CommonUtils.isDefined(allSelectedData)) {
-            allSelectedData = (allSelectedData instanceof ArrayCollection || allSelectedData instanceof Array) ?
-                allSelectedData : [allSelectedData];
+    onActivate() {
+        if (!this.initData) {
+            return;
         }
-        const list = this._initData.list;
+        if (this._initialized) {
+            return;
+        }
+        if (this.initData.lazy) {
+            // 这个地方有坑，cascade在初始化数据的时候，会把所有的tab页都创建并打开一次
+            // 在此时，我们并不希望cascade直接去找服务端要数据，因此设置了lazy为true，
+            // 这里，通过修改lazy的只让这个组件无视第一次打开，等到第二次打开时才去捞数据
+            this.initData.lazy = false;
+            return;
+        }
+
+        this._initialized = true;
+
+        let allSelectedData = this._$cascade.selectedItems[this.initData.level];
+        if (CommonUtils.isDefined(allSelectedData)) {
+            const isArray = allSelectedData instanceof ArrayCollection || allSelectedData instanceof Array;
+            allSelectedData = isArray ? allSelectedData : [allSelectedData];
+        }
+        const list = this.initData.list;
         if (list instanceof Observable) {
             const popupInfo = this._loading.show();
             const subscriber = list.subscribe((data: any[]) => {
@@ -367,12 +379,12 @@ export class JigsawInnerCascadeTabContent extends AbstractJigsawComponent implem
      * @internal
      */
     public _$handleSelect(selectedItems: any[]) {
-        if (!this._initData.multipleSelect) {
+        if (!this.initData.multipleSelect) {
             // 单选
-            this._$cascade._handleSelect(selectedItems[0], this._initData.level);
+            this._$cascade._handleSelect(selectedItems[0], this.initData.level);
         } else {
             // 多选，级联结束的tab
-            this._$cascade._handleMultipleSelect(selectedItems, this._initData.level);
+            this._$cascade._handleMultipleSelect(selectedItems, this.initData.level);
         }
     }
 
@@ -392,10 +404,10 @@ export class JigsawInnerCascadeTabContent extends AbstractJigsawComponent implem
 
 @NgModule({
     imports: [JigsawTabsModule, JigsawTileSelectModule, TranslateModule, CommonModule],
-    declarations: [JigsawCascade, JigsawInnerCascadeTabContent],
+    declarations: [JigsawCascade, InternalTabContent],
     exports: [JigsawCascade],
     providers: [LoadingService, TranslateService],
-    entryComponents: [JigsawInnerCascadeTabContent]
+    entryComponents: [InternalTabContent]
 })
 export class JigsawCascadeModule {
     constructor(ts: TranslateService) {

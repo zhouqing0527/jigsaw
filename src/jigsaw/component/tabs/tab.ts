@@ -162,6 +162,9 @@ export class JigsawTab extends AbstractJigsawComponent implements AfterViewInit,
         if (!this._tabsInkBar || this._tabLabels.length == 0) return;
 
         let labelPos = this._getLabelOffsetByKey(index);
+        if (!labelPos) {
+            return;
+        }
 
         this._$inkBarStyle = {
             'display': 'block',
@@ -174,15 +177,13 @@ export class JigsawTab extends AbstractJigsawComponent implements AfterViewInit,
     private _getLabelOffsetByKey(key: number): any {
         let currentLabel = this._tabLabels.find(item => item.key === key);
 
-        // 非法的 key // 有可能getTop 等扩展Tab页时再重构.
-        if (currentLabel) { // 找到对应的Label
+        if (currentLabel) {
             return {
                 offSet: currentLabel.getOffsetLeft(),
                 width: currentLabel.getOffsetWidth()
             }
         } else {
-            console.warn("没有对应key的tab-Label");
-            return {}
+            return null;
         }
     }
 
@@ -228,6 +229,9 @@ export class JigsawTab extends AbstractJigsawComponent implements AfterViewInit,
         if (!this._tabsInkBar || this._tabLabels.length == 0) return;
 
         const labelPos = this._getLabelOffsetByKey(this.selectedIndex);
+        if (!labelPos) {
+            return;
+        }
 
         const tabElem = this._tabsInkBar.nativeElement;
         if (tabElem.offsetWidth != labelPos.width) {
@@ -369,11 +373,15 @@ export class JigsawTab extends AbstractJigsawComponent implements AfterViewInit,
 
         //router link
         this.callLater(() => {
-            let link = this._tabLabels.find(item => item.key === this.selectedIndex)
-                .elementRef.nativeElement.querySelector('[routerLink]');
-            if (link) {
-                link.click()
+            const label = this._tabLabels.find(item => item.key === this.selectedIndex);
+            if (!label) {
+                return;
             }
+            const link = label.elementRef.nativeElement.querySelector('[routerLink]');
+            if (!link) {
+                return;
+            }
+            link.click();
         });
     }
 

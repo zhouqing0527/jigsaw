@@ -59,7 +59,6 @@ export class CascadeTabContentInitData {
     noMore: boolean;
     multipleSelect: boolean;
     showAll: boolean;
-    lazy: boolean;
 }
 
 /**
@@ -240,8 +239,7 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
             noMore: this.data[level].noMore,
             multipleSelect: this.data[level].noMore && this.multipleSelect,
             showAll: this.data[level].showAll,
-            lazy: lazy
-        });
+        }, !lazy);
     }
 
     private _removeCascadingTabs(level: number) {
@@ -271,8 +269,9 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
 
     private _fillBack() {
         this.selectedItems.forEach((item, index) => {
-            this._cascading(index, this.selectedItems[index - 1], true);
-            if (this.data[index].noMore && this.multipleSelect) return; // 多选时的最后一个tab采用默认title
+            this._cascading(index, this.selectedItems[index - 1], index != this.selectedItems.length - 1);
+            // 多选时的最后一个tab采用默认title
+            if (this.data[index].noMore && this.multipleSelect) return;
             this._updateTabTitle(item, index);
         })
     }
@@ -310,30 +309,19 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
         </j-tile>
     `
 })
-export class InternalTabContent extends AbstractJigsawComponent implements IDynamicInstantiatable {
+export class InternalTabContent extends AbstractJigsawComponent implements IDynamicInstantiatable, OnInit {
     constructor(@Optional() public _$cascade: JigsawCascade, private _loading: LoadingService) {
         super();
     }
 
     public initData: CascadeTabContentInitData;
-    private _initialized = false;
 
-    onActivate() {
+    ngOnInit() {
+        super.ngOnInit();
+
         if (!this.initData) {
             return;
         }
-        if (this._initialized) {
-            return;
-        }
-        if (this.initData.lazy) {
-            // 这个地方有坑，cascade在初始化数据的时候，会把所有的tab页都创建并打开一次
-            // 在此时，我们并不希望cascade直接去找服务端要数据，因此设置了lazy为true，
-            // 这里，通过修改lazy的只让这个组件无视第一次打开，等到第二次打开时才去捞数据
-            this.initData.lazy = false;
-            return;
-        }
-
-        this._initialized = true;
 
         let allSelectedData = this._$cascade.selectedItems[this.initData.level];
         if (CommonUtils.isDefined(allSelectedData)) {

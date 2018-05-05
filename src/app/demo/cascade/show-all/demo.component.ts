@@ -19,20 +19,20 @@ export class CascadeShowAllDemoComponent {
             {params: {level: level + '', parentID: selectedItem ? selectedItem[levelPram.filterKey] : null}});
         return {
             title: levelPram.title,
-            cascadingOver: levelPram.cascadingOver,
+            noMore: levelPram.noMore,
             showAll: levelPram.showAll,
             list: list
         };
     };
 
-    getLevelPram(level: number): { filterKey: string, title: string, cascadingOver?: boolean, showAll?: boolean } {
+    getLevelPram(level: number): { filterKey: string, title: string, noMore?: boolean, showAll?: boolean } {
         switch (level) {
             case 0:
                 return {filterKey: null, title: '省'};
             case 1:
                 return {filterKey: 'ProID', title: '市', showAll: true}; // showAll:是否显示‘全部’按钮
             case 2:
-                return {filterKey: 'CityID', title: '区', cascadingOver: true, showAll: true}; // cascadingOver:配置级联是否结束
+                return {filterKey: 'CityID', title: '区', noMore: true, showAll: true}; // noMore:配置级联是否结束
         }
     }
 

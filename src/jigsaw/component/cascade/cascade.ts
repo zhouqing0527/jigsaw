@@ -32,7 +32,7 @@ export class CascadeData {
      *
      * @type {boolean}
      */
-    cascadingOver?: boolean;
+    noMore?: boolean;
     /**
      * 是否显示“全部”按钮，不设置默认为不显示
      *
@@ -56,7 +56,7 @@ export type CascadeDateGenerator = (selectedItem: any, selectedItems: any[], dat
 export class CascadeTabContentInitData {
     level: number;
     list: any[] | Observable<Object>;
-    cascadingOver: boolean;
+    noMore: boolean;
     multipleSelect: boolean;
     showAll: boolean;
 }
@@ -210,7 +210,7 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
     public _handleSelect(selectedItem: any, level: number) {
         this._updateTabTitle(selectedItem, level);
         this.selectedItems[level] = selectedItem;
-        if (this.data[level].cascadingOver) {
+        if (this.data[level].noMore) {
             this.selectedItemsChange.emit(this.selectedItems);
         } else {
             this._cascading(level + 1, selectedItem);
@@ -236,8 +236,8 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
         this._tabs.addTab(this.data[level].title, JigsawInnerCascadeTabContent, {
             level: level,
             list: this.data[level].list,
-            cascadingOver: this.data[level].cascadingOver,
-            multipleSelect: this.data[level].cascadingOver && this.multipleSelect,
+            noMore: this.data[level].noMore,
+            multipleSelect: this.data[level].noMore && this.multipleSelect,
             showAll: this.data[level].showAll
         });
     }
@@ -270,7 +270,7 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
     private _fillBack() {
         this.selectedItems.forEach((item, index) => {
             this._cascading(index, this.selectedItems[index - 1]);
-            if (this.data[index].cascadingOver && this.multipleSelect) return; // 多选时的最后一个tab采用默认title
+            if (this.data[index].noMore && this.multipleSelect) return; // 多选时的最后一个tab采用默认title
             this._updateTabTitle(item, index);
         })
     }
@@ -381,7 +381,7 @@ export class JigsawInnerCascadeTabContent extends AbstractJigsawComponent implem
      */
     public _$handleOptionClick() {
         // 补充已选中的option不触发selectedItemsChange
-        if (this.initData.cascadingOver || this._$cascade._tabs.selectedIndex != this.initData.level) return;
+        if (this.initData.noMore || this._$cascade._tabs.selectedIndex != this.initData.level) return;
         if (this._$cascade._tabs.selectedIndex < this._$cascade._tabs.length - 1) {
             this._$cascade._tabs.selectedIndex += 1;
         } else {

@@ -19,19 +19,19 @@ export class CascadeBasicDemoComponent {
             {params: {level: level + '', parentID: selectedItem ? selectedItem[levelPram.filterKey] : null}});
         return {
             title: levelPram.title,
-            cascadingOver: levelPram.cascadingOver,
+            noMore: levelPram.noMore,
             list: list
         };
     };
 
-    getLevelPram(level: number): {filterKey: string, title: string, cascadingOver?: boolean} {
+    getLevelPram(level: number): {filterKey: string, title: string, noMore?: boolean} {
         switch (level) {
             case 0:
                 return {filterKey: null, title: '省'};
             case 1:
                 return {filterKey: 'ProID', title: '市'};
             case 2:
-                return {filterKey: 'CityID', title: '区', cascadingOver: true}; // cascadingOver:配置级联是否结束
+                return {filterKey: 'CityID', title: '区', noMore: true}; // noMore:配置级联是否结束
         }
     }
 

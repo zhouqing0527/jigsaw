@@ -4,7 +4,7 @@ import {
 import {CommonModule} from "@angular/common";
 import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {Observable} from "rxjs/Observable";
-import {JigsawTabsModule, TabContentBase} from "../tabs/index";
+import {JigsawTabsModule} from "../tabs/index";
 import {JigsawTileSelectModule} from "../list-and-tile/tile";
 import {JigsawTab} from "../tabs/tab";
 import {AbstractJigsawComponent, IDynamicInstantiatable} from "../common";
@@ -310,7 +310,7 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
         </j-tile>
     `
 })
-export class InternalTabContent extends TabContentBase {
+export class InternalTabContent extends AbstractJigsawComponent implements IDynamicInstantiatable {
     constructor(@Optional() public _$cascade: JigsawCascade, private _loading: LoadingService) {
         super();
     }

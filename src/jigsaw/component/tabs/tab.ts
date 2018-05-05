@@ -7,16 +7,6 @@ import {JigsawTabContent, JigsawTabLabel, TabTitleInfo} from "./tab-item";
 import {AbstractJigsawComponent, IDynamicInstantiatable} from "../common";
 import {CommonUtils} from "../../core/utils/common-utils";
 
-export class TabContentBase extends AbstractJigsawComponent implements IDynamicInstantiatable {
-    public initData: any;
-
-    public onActivate() {
-    }
-
-    public onDeactivate() {
-    }
-}
-
 /**
  * 使用`JigsawTab`来将一组视图叠加在同一个区域使用，并以页签的方式来切换这些视图。
  * `JigsawTab`提供了多个api用于动态创建、销毁、隐藏tab页，
@@ -263,14 +253,12 @@ export class JigsawTab extends AbstractJigsawComponent implements AfterViewInit,
      */
     public hideTab(index: number): void {
         let tabPane = this._getTabPaneByIndex(index);
+
         if (!this._isTabPane(tabPane)) return;
 
         tabPane.hidden = true;
-        this._handleSelect();
 
-        if (tabPane.content instanceof TabContentBase) {
-            CommonUtils.safeInvokeCallback(this, tabPane.content.onDeactivate);
-        }
+        this._handleSelect();
     }
 
     /**
@@ -283,14 +271,11 @@ export class JigsawTab extends AbstractJigsawComponent implements AfterViewInit,
      */
     public showTab(index: number) {
         let tabPane = this._getTabPaneByIndex(index);
+
         if (!this._isTabPane(tabPane)) return;
 
         tabPane.hidden = false;
         this.selectedIndex = index;
-
-        if (tabPane.content instanceof TabContentBase) {
-            CommonUtils.safeInvokeCallback(this, tabPane.content.onActivate);
-        }
     }
 
     private _isTabPane(tabPane: any): boolean {
@@ -311,48 +296,59 @@ export class JigsawTab extends AbstractJigsawComponent implements AfterViewInit,
      * @param {TemplateRef<any>} contentTemplate 以一个`ng-template`标签包围起来的模板作为tab页的内容，
      * 当tab页的内容比较简单时，建议采用此方式。
      * @param {Object} initData 提供给`contentTemplate`的初始化数据
+     * @param {boolean} activateImmediately 是否立即激活新增的Tab页，默认值是`true`
      */
-    public addTab(titleString: string, contentTemplate: TemplateRef<any>, initData?: Object);
+    public addTab(titleString: string, contentTemplate: TemplateRef<any>,
+                  initData?: Object, activateImmediately?: boolean);
     /**
      * @param {TemplateRef<any>} titleTemplate 以一个`ng-template`标签包围起来的模板作为标题，
      * 这样可以彻底定制化新增的tab的标题部分，例如加图标，甚至添加按钮、进度条等复杂视图。
      * @param {TemplateRef<any>} contentTemplate
      * @param {Object} initData
+     * @param {boolean} activateImmediately
      */
-    public addTab(titleTemplate: TemplateRef<any>, contentTemplate: TemplateRef<any>, initData?: Object);
+    public addTab(titleTemplate: TemplateRef<any>, contentTemplate: TemplateRef<any>,
+                  initData?: Object, activateImmediately?: boolean);
     /**
      * @param {Type<IDynamicInstantiatable>} titleComponent 以一个组件作为标题，这样可以彻底定制化新增的tab的标题部分，
      * 例如加图标，甚至添加按钮、进度条等复杂视图。
      * @param {TemplateRef<any>} contentTemplate
      * @param {Object} initData
+     * @param {boolean} activateImmediately
      */
-    public addTab(titleComponent: Type<IDynamicInstantiatable>, contentTemplate: TemplateRef<any>, initData?: Object);
+    public addTab(titleComponent: Type<IDynamicInstantiatable>, contentTemplate: TemplateRef<any>,
+                  initData?: Object, activateImmediately?: boolean);
     /**
-     *
      * @param {string} titleString
      * @param {Type<IDynamicInstantiatable>} contentComponent 以一个组件作为tab页的内容，
      * 如果新增的tab页内容比较复杂，建议采用此方式添加，以让各部分代码的耦合解开。
      * @param {Object} initData
+     * @param {boolean} activateImmediately
      */
-    public addTab(titleString: string, contentComponent: Type<IDynamicInstantiatable>, initData?: Object);
+    public addTab(titleString: string, contentComponent: Type<IDynamicInstantiatable>,
+                  initData?: Object, activateImmediately?: boolean);
     /**
      * @param {TemplateRef<any>} titleTemplate
      * @param {Type<IDynamicInstantiatable>} contentComponent
      * @param {Object} initData
+     * @param {boolean} activateImmediately
      */
-    public addTab(titleTemplate: TemplateRef<any>, contentComponent: Type<IDynamicInstantiatable>, initData?: Object);
+    public addTab(titleTemplate: TemplateRef<any>, contentComponent: Type<IDynamicInstantiatable>,
+                  initData?: Object, activateImmediately?: boolean);
     /**
      * @param {Type<IDynamicInstantiatable>} titleComponent
      * @param {Type<IDynamicInstantiatable>} contentComponent
      * @param {Object} initData
+     * @param {boolean} activateImmediately
      */
-    public addTab(titleComponent: Type<IDynamicInstantiatable>, contentComponent: Type<IDynamicInstantiatable>, initData?: Object);
+    public addTab(titleComponent: Type<IDynamicInstantiatable>, contentComponent: Type<IDynamicInstantiatable>,
+                  initData?: Object, activateImmediately?: boolean);
     /**
      * @internal
      */
     public addTab(title: string | TemplateRef<any> | Type<IDynamicInstantiatable>,
                   content: TemplateRef<any> | Type<IDynamicInstantiatable>,
-                  initData?: Object) {
+                  initData?: Object, activateImmediately: boolean = true) {
         const factory = this._cfr.resolveComponentFactory(JigsawTabPane);
         let tabPane: JigsawTabPane = this._viewContainer.createComponent(factory).instance;
         if (typeof title == 'string') {
@@ -367,7 +363,9 @@ export class JigsawTab extends AbstractJigsawComponent implements AfterViewInit,
         tabTemp.push(tabPane);
         this._$tabPanes.reset(tabTemp);
         this.length = this._$tabPanes.length;
-        this.selectedIndex = this._$tabPanes.length - 1;
+        if (activateImmediately) {
+            this.selectedIndex = this._$tabPanes.length - 1;
+        }
 
         //router link
         this.callLater(() => {
@@ -393,12 +391,7 @@ export class JigsawTab extends AbstractJigsawComponent implements AfterViewInit,
             return;
         }
 
-        const tabPane = this._getTabPaneByIndex(index);
-        if (this._isTabPane(tabPane) && tabPane.content instanceof TabContentBase) {
-            CommonUtils.safeInvokeCallback(this, tabPane.content.onDeactivate);
-        }
-
-        const tabTemp = this._$tabPanes.toArray();
+        let tabTemp = this._$tabPanes.toArray();
         tabTemp.splice(index, 1); // 去掉要删除的元素;
 
         // 重新修改queryList. 不确定这么做有没有什么隐患.

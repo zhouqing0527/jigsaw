@@ -13,6 +13,7 @@ import {ArrayCollection} from "../../core/data/array-collection";
 import {LoadingService} from "../../service/loading.service";
 import {InternalUtils} from "../../core/utils/internal-utils";
 import {TranslateHelper} from "../../core/utils/translate-helper";
+import {TreeData} from "../../core/data/tree-data";
 
 export class CascadeData {
     /**
@@ -74,9 +75,11 @@ export class CascadeTabContentInitData {
  */
 @Component({
     selector: 'jigsaw-cascade, j-cascade',
-    template: '<j-tabs></j-tabs>',
+    template: '<j-tabs [style.width]="width" [style.height]="height"></j-tabs>',
     host: {
-        '[class.jigsaw-cascade]': 'true'
+        '[class.jigsaw-cascade]': 'true',
+        '[style.width]': 'width',
+        '[style.height]': 'height'
     }
 })
 export class JigsawCascade extends AbstractJigsawComponent implements AfterViewInit, OnInit {
@@ -90,21 +93,58 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
     @ViewChild(JigsawTab) public _tabs: JigsawTab;
 
     /**
-     * 各tab的数据集
-     * @type {Array}
+     * @internal
      */
-    public data: CascadeData[] = [];
+    public _cascadeData: CascadeData[] = [];
 
     /**
-     * 级联时生成数据的函数
-     *
-     * @type {CascadeDateGenerator}
+     * 生成级联数据的函数，一般用于需要异步加载的数据的生产
      *
      * $demo = cascade/basic
      * $demo = cascade/multiple-select
      */
     @Input()
     public dataGenerator: CascadeDateGenerator;
+
+    private _data: CascadeDateGenerator | TreeData;
+
+    /**
+     * 级联数据
+     * - 可以是一个生产数据的函数，参考`dataGenerator`
+     * - 也可以是一个有层级关系的静态数据，参考`TreeData`
+     */
+    @Input()
+    public get data(): CascadeDateGenerator | TreeData {
+        return this._data;
+    }
+
+    public set data(value: CascadeDateGenerator | TreeData) {
+        this._data = value;
+        if (value instanceof Function) {
+            this.dataGenerator = value;
+        } else if (!!value) {
+            this.dataGenerator = this._treeDataGenerator;
+        } else {
+            this.dataGenerator = this._dummyGenerator;
+        }
+    }
+
+    private _treeDataGenerator(selectedItem: any): CascadeData {
+        const cd = new CascadeData();
+        const td = <TreeData>this.data;
+        const si = selectedItem ? selectedItem : td;
+        cd.list = si.nodes;
+        cd.title = si.title;
+        cd.noMore = td.noMore;
+        cd.showAll = td.showAll;
+        cd.labelField = td.labelField;
+        cd.trackItemBy = td.trackItemBy;
+        return cd;
+    }
+
+    private _dummyGenerator(): CascadeData {
+        return null;
+    }
 
     /**
      * 级联选择的数据
@@ -181,7 +221,7 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
             // 过滤掉已有的但是现在不选的
             const compare = CommonUtils.compareWithKeyProperty;
             this.selectedItems[level] = this.selectedItems[level].filter(item => {
-                const list = <any[]>this.data[level].list;
+                const list = <any[]>this._cascadeData[level].list;
                 const inThisTab = list.find(it => compare(item, it, this._trackItemBy));
                 // 不是此维度的保留
                 if (!inThisTab) {
@@ -210,7 +250,7 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
     public _handleSelect(selectedItem: any, level: number) {
         this._updateTabTitle(selectedItem, level);
         this.selectedItems[level] = selectedItem;
-        if (this.data[level].noMore) {
+        if (this._cascadeData[level].noMore) {
             this.selectedItemsChange.emit(this.selectedItems);
         } else {
             this._cascading(level + 1, selectedItem);
@@ -233,12 +273,12 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
 
     private _addCascadingTab(level: number, lazy: boolean) {
         this._removeCascadingTabs(level);
-        this._tabs.addTab(this.data[level].title, InternalTabContent, {
+        this._tabs.addTab(this._cascadeData[level].title, InternalTabContent, {
             level: level,
-            list: this.data[level].list,
-            noMore: this.data[level].noMore,
-            multipleSelect: this.data[level].noMore && this.multipleSelect,
-            showAll: this.data[level].showAll,
+            list: this._cascadeData[level].list,
+            noMore: this._cascadeData[level].noMore,
+            multipleSelect: this._cascadeData[level].noMore && this.multipleSelect,
+            showAll: this._cascadeData[level].showAll,
         }, !lazy);
     }
 
@@ -257,13 +297,13 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
     }
 
     private _cascading(level: number, selectedItem?: any, lazy?: boolean) {
-        const levelData = this.dataGenerator(selectedItem, this.selectedItems, this.data, level);
+        const levelData = this.dataGenerator(selectedItem, this.selectedItems, this._cascadeData, level);
         if (!levelData || !levelData.list) {
             // 取不到下一级的数据，级联到此结束，更新选中的数据
             this.selectedItemsChange.emit(this.selectedItems);
             return;
         }
-        this.data[level] = levelData;
+        this._cascadeData[level] = levelData;
         this._addCascadingTab(level, lazy);
     }
 
@@ -271,7 +311,7 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
         this.selectedItems.forEach((item, index) => {
             this._cascading(index, this.selectedItems[index - 1], index != this.selectedItems.length - 1);
             // 多选时的最后一个tab采用默认title
-            if (this.data[index].noMore && this.multipleSelect) return;
+            if (this._cascadeData[index].noMore && this.multipleSelect) return;
             this._updateTabTitle(item, index);
         })
     }
@@ -332,7 +372,7 @@ export class InternalTabContent extends AbstractJigsawComponent implements IDyna
         if (list instanceof Observable) {
             const popupInfo = this._loading.show();
             const subscriber = list.subscribe((data: any[]) => {
-                this._$cascade.data[this.initData.level].list = data; // 更新list变成实体数据
+                this._$cascade._cascadeData[this.initData.level].list = data; // 更新list变成实体数据
                 this._init(data, allSelectedData);
 
                 subscriber.unsubscribe();

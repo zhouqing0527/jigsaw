@@ -1,0 +1,946 @@
+[
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1101,
+        "district": "东城区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1102,
+        "district": "西城区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1103,
+        "district": "朝阳区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1104,
+        "district": "丰台区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1105,
+        "district": "石景山区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1106,
+        "district": "海淀区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1107,
+        "district": "顺义区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1108,
+        "district": "通州区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1109,
+        "district": "大兴区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1110,
+        "district": "房山区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1111,
+        "district": "门头沟区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1112,
+        "district": "昌平区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1113,
+        "district": "平谷区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1114,
+        "district": "密云区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1115,
+        "district": "怀柔区"
+    },
+    {
+        "provinceId": 1,
+        "province": "北京",
+        "cityId": 11,
+        "city": "北京市",
+        "districtId": 1116,
+        "district": "延庆区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 21,
+        "city": "南京市",
+        "districtId": 2101,
+        "district": "玄武区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 21,
+        "city": "南京市",
+        "districtId": 2102,
+        "district": "秦淮区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 21,
+        "city": "南京市",
+        "districtId": 2103,
+        "district": "鼓楼区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 21,
+        "city": "南京市",
+        "districtId": 2104,
+        "district": "建邺区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 21,
+        "city": "南京市",
+        "districtId": 2105,
+        "district": "雨花台区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 21,
+        "city": "南京市",
+        "districtId": 2106,
+        "district": "栖霞区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 21,
+        "city": "南京市",
+        "districtId": 2107,
+        "district": "浦口区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 21,
+        "city": "南京市",
+        "districtId": 2108,
+        "district": "六合区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 21,
+        "city": "南京市",
+        "districtId": 2109,
+        "district": "江宁区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 21,
+        "city": "南京市",
+        "districtId": 2110,
+        "district": "溧水区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 21,
+        "city": "南京市",
+        "districtId": 2111,
+        "district": "高淳区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 22,
+        "city": "无锡市",
+        "districtId": 2201,
+        "district": "梁溪区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 22,
+        "city": "无锡市",
+        "districtId": 2202,
+        "district": "滨湖区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 22,
+        "city": "无锡市",
+        "districtId": 2203,
+        "district": "惠山区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 22,
+        "city": "无锡市",
+        "districtId": 2204,
+        "district": "锡山区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 22,
+        "city": "无锡市",
+        "districtId": 2205,
+        "district": "新吴区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 22,
+        "city": "无锡市",
+        "districtId": 2206,
+        "district": "江阴市"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 22,
+        "city": "无锡市",
+        "districtId": 2207,
+        "district": "宜兴市"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 23,
+        "city": "苏州市",
+        "districtId": 2301,
+        "district": "姑苏区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 23,
+        "city": "苏州市",
+        "districtId": 2302,
+        "district": "相城区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 23,
+        "city": "苏州市",
+        "districtId": 2303,
+        "district": "吴中区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 23,
+        "city": "苏州市",
+        "districtId": 2304,
+        "district": "虎丘区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 23,
+        "city": "苏州市",
+        "districtId": 2305,
+        "district": "吴江区"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 23,
+        "city": "苏州市",
+        "districtId": 2306,
+        "district": "常熟市"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 23,
+        "city": "苏州市",
+        "districtId": 2307,
+        "district": "昆山市"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 23,
+        "city": "苏州市",
+        "districtId": 2308,
+        "district": "张家港市"
+    },
+    {
+        "provinceId": 2,
+        "province": "江苏省",
+        "cityId": 23,
+        "city": "苏州市",
+        "districtId": 2309,
+        "district": "太仓市"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 31,
+        "city": "广州市",
+        "districtId": 3101,
+        "district": "越秀区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 31,
+        "city": "广州市",
+        "districtId": 3102,
+        "district": "荔湾区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 31,
+        "city": "广州市",
+        "districtId": 3103,
+        "district": "海珠区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 31,
+        "city": "广州市",
+        "districtId": 3104,
+        "district": "天河区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 31,
+        "city": "广州市",
+        "districtId": 3105,
+        "district": "白云区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 31,
+        "city": "广州市",
+        "districtId": 3106,
+        "district": "黄埔区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 31,
+        "city": "广州市",
+        "districtId": 3107,
+        "district": "番禺区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 31,
+        "city": "广州市",
+        "districtId": 3108,
+        "district": "花都区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 31,
+        "city": "广州市",
+        "districtId": 3109,
+        "district": "南沙区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 31,
+        "city": "广州市",
+        "districtId": 3110,
+        "district": "增城区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 31,
+        "city": "广州市",
+        "districtId": 3111,
+        "district": "从化区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 32,
+        "city": "深圳市",
+        "districtId": 3201,
+        "district": "福田区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 32,
+        "city": "深圳市",
+        "districtId": 3202,
+        "district": "罗湖区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 32,
+        "city": "深圳市",
+        "districtId": 3203,
+        "district": "南山区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 32,
+        "city": "深圳市",
+        "districtId": 3204,
+        "district": "盐田区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 32,
+        "city": "深圳市",
+        "districtId": 3205,
+        "district": "宝安区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 32,
+        "city": "深圳市",
+        "districtId": 3206,
+        "district": "龙岗区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 32,
+        "city": "深圳市",
+        "districtId": 3207,
+        "district": "龙华区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 32,
+        "city": "深圳市",
+        "districtId": 3208,
+        "district": "坪山区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 33,
+        "city": "汕头市",
+        "districtId": 3301,
+        "district": "金平区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 33,
+        "city": "汕头市",
+        "districtId": 3302,
+        "district": "龙湖区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 33,
+        "city": "汕头市",
+        "districtId": 3303,
+        "district": "澄海区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 33,
+        "city": "汕头市",
+        "districtId": 3304,
+        "district": "濠江区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 33,
+        "city": "汕头市",
+        "districtId": 3305,
+        "district": "潮阳区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 33,
+        "city": "汕头市",
+        "districtId": 3306,
+        "district": "潮南区"
+    },
+    {
+        "provinceId": 3,
+        "province": "广东省",
+        "cityId": 33,
+        "city": "汕头市",
+        "districtId": 3307,
+        "district": "南澳县"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4101,
+        "district": "武侯区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4102,
+        "district": "锦江区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4103,
+        "district": "青羊区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4104,
+        "district": "金牛区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4105,
+        "district": "成华区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4106,
+        "district": "龙泉驿区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4107,
+        "district": "温江区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4108,
+        "district": "新都区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4109,
+        "district": "青白江区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4110,
+        "district": "双流区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4111,
+        "district": "郫都区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4112,
+        "district": "蒲江县"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4113,
+        "district": "大邑县"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4114,
+        "district": "金堂县"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4115,
+        "district": "新津县"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4116,
+        "district": "都江堰市"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4117,
+        "district": "彭州市"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4118,
+        "district": "邛崃市"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4119,
+        "district": "崇州市"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 41,
+        "city": "成都市",
+        "districtId": 4120,
+        "district": "简阳市"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 42,
+        "city": "自贡市",
+        "districtId": 4201,
+        "district": "自流井区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 42,
+        "city": "自贡市",
+        "districtId": 4202,
+        "district": "贡井区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 42,
+        "city": "自贡市",
+        "districtId": 4203,
+        "district": "大安区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 42,
+        "city": "自贡市",
+        "districtId": 4204,
+        "district": "沿滩区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 42,
+        "city": "自贡市",
+        "districtId": 4205,
+        "district": "荣县"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 42,
+        "city": "自贡市",
+        "districtId": 4206,
+        "district": "富顺县"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 43,
+        "city": "泸州市",
+        "districtId": 4301,
+        "district": "江阳区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 43,
+        "city": "泸州市",
+        "districtId": 4302,
+        "district": "龙马潭区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 43,
+        "city": "泸州市",
+        "districtId": 4303,
+        "district": "纳溪区"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 43,
+        "city": "泸州市",
+        "districtId": 4304,
+        "district": "泸县"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 43,
+        "city": "泸州市",
+        "districtId": 4305,
+        "district": "合江县"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 43,
+        "city": "泸州市",
+        "districtId": 4306,
+        "district": "叙永县"
+    },
+    {
+        "provinceId": 4,
+        "province": "四川省",
+        "cityId": 43,
+        "city": "泸州市",
+        "districtId": 4307,
+        "district": "古蔺县"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5201,
+        "district": "黄浦区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5202,
+        "district": "徐汇区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5203,
+        "district": "长宁区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5204,
+        "district": "静安区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5205,
+        "district": "普陀区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5206,
+        "district": "虹口区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5207,
+        "district": "杨浦区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5208,
+        "district": "浦东新区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5209,
+        "district": "闵行区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5210,
+        "district": "宝山区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5211,
+        "district": "嘉定区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5212,
+        "district": "金山区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5213,
+        "district": "松江区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5214,
+        "district": "青浦区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5215,
+        "district": "奉贤区"
+    },
+    {
+        "provinceId": 5,
+        "province": "上海",
+        "cityId": 52,
+        "city": "上海市",
+        "districtId": 5216,
+        "district": "崇明区"
+    }
+]

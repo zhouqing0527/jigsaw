@@ -4,6 +4,9 @@ $cascade-prefix-cls: #{$jigsaw-prefix}-cascade;
 $tile-prefix-cls: #{$jigsaw-prefix}-tile;
 
 .#{$cascade-prefix-cls} {
+    //border: 1px solid $border-color-base;
+    //border-radius: $border-radius-base;
+
     .#{$tile-prefix-cls} {
         border: none;
     }

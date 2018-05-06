@@ -2,6 +2,8 @@ import {NgModule} from "@angular/core";
 import {RouterModule} from "@angular/router";
 import {CascadeBasicDemoComponent} from "./basic/demo.component";
 import {CascadeBasicDemoModule} from "./basic/demo.module";
+import {CascadeLazyLoadDemoComponent} from "./lazy-load/demo.component";
+import {CascadeLazyLoadDemoModule} from "./lazy-load/demo.module";
 import {CascadeMultipleDemoComponent} from "./multiple-select/demo.component";
 import {CascadeMultipleDemoModule} from "./multiple-select/demo.module";
 import {CascadeDataFillBackDemoComponent} from "./preset-data/demo.component";
@@ -18,6 +20,9 @@ import {CascadeShowAllDemoModule} from "./show-all/demo.module";
 export const routerConfig = [
     {
         path: 'basic', component: CascadeBasicDemoComponent
+    },
+    {
+        path: 'lazy-load', component: CascadeLazyLoadDemoComponent
     },
     {
         path: 'multiple-select', component: CascadeMultipleDemoComponent
@@ -43,6 +48,7 @@ export const routerConfig = [
     imports: [
         RouterModule.forChild(routerConfig),
         CascadeBasicDemoModule,
+        CascadeLazyLoadDemoModule,
         CascadeMultipleDemoModule,
         CascadeDataFillBackDemoModule,
         CascadeMultiDataFillBackDemoModule,

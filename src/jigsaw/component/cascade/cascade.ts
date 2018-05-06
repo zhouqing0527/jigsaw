@@ -75,7 +75,7 @@ export class CascadeTabContentInitData {
  */
 @Component({
     selector: 'jigsaw-cascade, j-cascade',
-    template: '<j-tabs [style.width]="width" [style.height]="height"></j-tabs>',
+    template: '<j-tabs [style.width]="width" [style.height]="height" style="border: 1px solid"></j-tabs>',
     host: {
         '[class.jigsaw-cascade]': 'true',
         '[style.width]': 'width',
@@ -105,6 +105,17 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
      */
     @Input()
     public dataGenerator: CascadeDateGenerator;
+
+    /**
+     * 一般配合`dataGenerator`使用，用于指明`dataGenerator`函数执行的上下文对象，
+     * 忽略此值时，`dataGenerator`函数中的`this`将指向一个空对象。
+     *
+     * 注意，如果`data`属性的值是一个函数，则该函数的执行上下文也是此属性指定的对象。
+     *
+     * $demo = cascade/lazy-load
+     */
+    @Input()
+    public generatorContext: any;
 
     private _data: CascadeDateGenerator | TreeData;
 
@@ -297,7 +308,8 @@ export class JigsawCascade extends AbstractJigsawComponent implements AfterViewI
     }
 
     private _cascading(level: number, selectedItem?: any, lazy?: boolean) {
-        const levelData = this.dataGenerator(selectedItem, this.selectedItems, this._cascadeData, level);
+        const levelData = CommonUtils.safeInvokeCallback(this.generatorContext, this.dataGenerator,
+            [selectedItem, this.selectedItems, this._cascadeData, level]);
         if (!levelData || !levelData.list) {
             // 取不到下一级的数据，级联到此结束，更新选中的数据
             this.selectedItemsChange.emit(this.selectedItems);
